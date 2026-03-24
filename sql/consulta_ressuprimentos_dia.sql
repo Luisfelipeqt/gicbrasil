@@ -1,0 +1,12 @@
+SELECT
+    DATE (h.DATA_HORA) AS dia, COUNT (*) AS total_solicitacoes
+FROM HISTORICO h
+WHERE h.TIPO = 1
+  AND EXISTS (
+    SELECT 1 FROM TAREFA t
+    WHERE t.ID_LOJA = h.ID_LOJA
+  AND t.ID_TAREFA = h.ID_TAREFA
+  AND t.TIPO = 1
+    )
+GROUP BY DATE (h.DATA_HORA)
+ORDER BY dia;

@@ -1,0 +1,20 @@
+SELECT
+    DATE (h.DATA_HORA) AS dia, u.NOME AS usuario, COUNT (DISTINCT h.ID_LOJA, h.ID_TAREFA) AS total_tarefas, COUNT (DISTINCT r.ID_PRODUTO) AS total_produtos_distintos
+FROM HISTORICO h
+    INNER JOIN USUARIO u
+ON u.ID_LOJA = h.ID_LOJA
+    AND u.ID_USUARIO = h.ID_USUARIO
+    INNER JOIN TAREFA t
+    ON t.ID_LOJA = h.ID_LOJA
+    AND t.ID_TAREFA = h.ID_TAREFA
+    AND t.TIPO = 1
+    LEFT JOIN RESSUPRIMENTO r
+    ON r.ID_LOJA = h.ID_LOJA
+    AND r.ID_TAREFA = h.ID_TAREFA
+GROUP BY
+    DATE (h.DATA_HORA),
+    h.ID_USUARIO,
+    u.NOME
+ORDER BY
+    dia,
+    usuario;
